@@ -149,7 +149,9 @@ abstract class PrijsProcesser {
         observers.remove(observer);
     }
 }
+class PrijsCalculatieServie{
 
+}
 class PrijsProcesserKoers extends PrijsProcesser {
     IKoers iKoers;
 

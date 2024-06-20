@@ -2,8 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ActieZieAssortiment implements IActie{ private Scanner scanner;
-    private Cookie account;
-    public ActieZieAssortiment(Cookie account) {
+    private AccountSessie account;
+    public ActieZieAssortiment(AccountSessie account) {
         this.scanner =  new Scanner(System.in);
         this.account = account;
     }
@@ -39,7 +39,7 @@ public class ActieZieAssortiment implements IActie{ private Scanner scanner;
         }
     }
 
-    private void toonKleding(ArrayList<IKleding> kledingLijst, String categorieNaam, Cookie account) {
+    private void toonKleding(ArrayList<IKleding> kledingLijst, String categorieNaam, AccountSessie account) {
 
         System.out.println(categorieNaam + ":");
         for (int i = 0; i < kledingLijst.size(); i++) {
@@ -47,7 +47,7 @@ public class ActieZieAssortiment implements IActie{ private Scanner scanner;
             System.out.println((i + 1) + ". " + kleding.getNaam() + " De prijs: " + kleding.getBasisPrijs() + " Voorraad: " + kleding.getVoorraad());
         }
         System.out.println();
-        System.out.print("Kies een item door het nummer in te voeren (of 0 om terug te gaan): ");
+        System.out.print("Kies een item (of 0 om terug te gaan): ");
         int keuze = scanner.nextInt();
         if (keuze >= 1 && keuze <= kledingLijst.size()) {
             IKleding gekozenKleding = kledingLijst.get(keuze - 1);

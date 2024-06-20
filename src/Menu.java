@@ -4,6 +4,7 @@ import java.util.Scanner;
 abstract class Menu {
     protected ArrayList<Menukeuze> opties;
     protected String naam;
+    Scanner scanner = new Scanner(System.in);
 
     public Menu(String naam) {
         this.naam = naam;
@@ -60,10 +61,10 @@ abstract class Menu {
     }
 }
 class KiesAccount extends Menu {
-    Cookie cookie;
-    public KiesAccount(String naam, Cookie cookie) {
+    AccountSessie accountSessie;
+    public KiesAccount(String naam, AccountSessie accountSessie) {
         super("LOGIN");
-        this.cookie = cookie;
+        this.accountSessie = accountSessie;
     }
 
     @Override
@@ -71,7 +72,7 @@ class KiesAccount extends Menu {
         this.opties.clear();
 
         voegOptieToe(new Menukeuze(1, "Admin", new ActieOpenAdminMenu()));
-        voegOptieToe(new Menukeuze(2, "Klant",new ActieOpenKlantMenu(cookie)));
+        voegOptieToe(new Menukeuze(2, "Klant",new ActieOpenKlantMenu(accountSessie)));
 
     }
 
@@ -83,9 +84,9 @@ interface VoorraadSubject {
     void notifyObservers();
 }
 class MandjeMenu extends Menu implements VoorraadObserver {
-    private Cookie account;
+    private AccountSessie account;
 
-    public MandjeMenu(Cookie account) {
+    public MandjeMenu(AccountSessie account) {
         super("Mandje Menu");
         this.account = account;
         System.out.println("Mandje geinitialiseerd: " + account);
@@ -104,8 +105,8 @@ class MandjeMenu extends Menu implements VoorraadObserver {
 
         int i = 1;
         for (IKleding kleding : account.getMandje().getiKleding()) {
-            voegOptieToe(new Menukeuze(i++, "Verwijder " + kleding.getNaam() + " uit mandje", new ActieKledingVerwijderKledingUitMandje(account, kleding)));
-            voegOptieToe(new Menukeuze(i++, "Verander hoeveelheid van " + kleding.getNaam(),new ActieVeranderHoeveelheid(kleding, account)));
+            voegOptieToe(new Menukeuze(i++, "Verwijder " + kleding.getNaam() + " uit mandje", new MandService("verwijder", account, kleding)));
+            voegOptieToe(new Menukeuze(i++, "Verander hoeveelheid van " + kleding.getNaam(), new MandService("verander_hoeveelheid", account, kleding)));
             voegOptieToe(new Menukeuze(i++, "Bekijk details van " + kleding.getNaam(), false));
         }
 
@@ -125,11 +126,12 @@ interface VoorraadObserver{
     void update();
 }
 class KlantAccountMenu extends Menu {
-    private Cookie cookie;
+    private AccountSessie accountSessie;
 
-    public KlantAccountMenu(String naam, Cookie account) {
+
+    public KlantAccountMenu(String naam, AccountSessie account) {
         super(naam);
-         cookie = account;
+         accountSessie = account;
         System.out.println("KlantAccountMenu geinitialiseerd met account: " + account);
     }
 
@@ -137,10 +139,10 @@ class KlantAccountMenu extends Menu {
     protected void initializeMenuOpties() {
         this.opties.clear();
 
-        voegOptieToe(new Menukeuze(1, "Zie Assortiment",new ActieZieAssortiment(cookie)));
-        voegOptieToe(new Menukeuze(2, "Open Mandje",new ActieZieMandje(cookie)));
-        voegOptieToe(new Menukeuze(3, "Zie Bestellingen",new ActieZieBestelling(cookie)));
-        voegOptieToe(new Menukeuze(4, "Verander Koers", new ActieVeranderKoerss(cookie)));
+        voegOptieToe(new Menukeuze(1, "Zie Assortiment",new ActieZieAssortiment(accountSessie)));
+        voegOptieToe(new Menukeuze(2, "Open Mandje", (IActie) new MandService("zie_mandje", accountSessie, scanner)));
+        voegOptieToe(new Menukeuze(3, "Zie Bestellingen",new ActieZieBestelling(accountSessie)));
+        voegOptieToe(new Menukeuze(4, "Verander Koers", new ActieVeranderKoerss(accountSessie)));
         voegOptieToe(new Menukeuze(5, "Verander Taal", false));
         voegOptieToe(new Menukeuze(9, "Terug", true));
     }
@@ -194,9 +196,26 @@ class ActieBewerkDataKleding implements  IActie{
         controllerKleding.bewerkKleding(keuze);
     }
 }
-class ActieBewerkDataKled implements  IActie{
-    @Override
-    public void voerUit() {
+class MenuNavigatieService {
+    public void openAdminMenu(Scanner scanner) {
+        KlantAdminMenu menu = new KlantAdminMenu("");
+        menu.handleMenu(scanner);
+    }
 
+    public void openKlantMenu(AccountSessie cookie, Scanner scanner) {
+        ArrayList<IKleding> neww = new ArrayList<>();
+        KlantAccountMenu klant = new KlantAccountMenu("ff", cookie);
+        cookie.getMandje().setKleding(neww);
+        klant.handleMenu(scanner);
+    }
+
+    public void openSaleSubMenu(Scanner scanner) {
+        SaleSubMenu menu = new SaleSubMenu("");
+        menu.handleMenu(scanner);
+    }
+
+    public void veranderKoers(AccountSessie cookie, Scanner scanner) {
+        ActieVeranderKoersMenu menu = new ActieVeranderKoersMenu(cookie);
+        menu.handleMenu(scanner);
     }
 }

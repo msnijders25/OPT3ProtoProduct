@@ -1,5 +1,8 @@
+import java.util.ArrayList;
+
 public class Account {
     String login;
+    BestellingGeschiedenis bestellingGeschiedenis = new BestellingGeschiedenis();
     Account(String login){
         this.login = login;
 
@@ -10,5 +13,9 @@ public class Account {
 
     public String getMandje() {
         return login;
+    }
+
+    public BestellingGeschiedenis getBestellingGeschiedenis() {
+        return bestellingGeschiedenis;
     }
 }

@@ -1,14 +1,14 @@
 public class ActieKoersConversie implements IActie {
     IKoers koers;
-    Cookie cookie;
-    ActieKoersConversie(IKoers koers, Cookie cookie){
+    AccountSessie accountSessie;
+    ActieKoersConversie(IKoers koers, AccountSessie accountSessie){
         this.koers = koers;
-        this.cookie = cookie;
+        this.accountSessie = accountSessie;
     }
     @Override
     public void voerUit() {
-        cookie.prijsProcesserKlant.setIkoers(koers);
-        cookie.prijsProcesserKlant.applyKoers();
+        accountSessie.prijsProcesserKlant.setIkoers(koers);
+        accountSessie.prijsProcesserKlant.applyKoers();
 
     }
 }

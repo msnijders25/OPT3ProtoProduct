@@ -1,14 +1,14 @@
 import java.util.Scanner;
 
 public class ActieVeranderKoerss implements IActie {
-    Cookie cookie;
-    ActieVeranderKoerss(Cookie cookie){
-        this.cookie = cookie;
+    AccountSessie accountSessie;
+    ActieVeranderKoerss(AccountSessie accountSessie){
+        this.accountSessie = accountSessie;
     }
     @Override
     public void voerUit() {
         Scanner scanner = new Scanner(System.in);
-        ActieVeranderKoersMenu menu = new ActieVeranderKoersMenu(cookie);
+        ActieVeranderKoersMenu menu = new ActieVeranderKoersMenu(accountSessie);
         menu.handleMenu(scanner);
 
     }

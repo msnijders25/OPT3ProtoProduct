@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ActieZieBestelling implements  IActie{
-    Cookie cookie;
-    ActieZieBestelling(Cookie cookie){
-        this.cookie = cookie;
+    AccountSessie accountSessie;
+    ActieZieBestelling(AccountSessie accountSessie){
+        this.accountSessie = accountSessie;
     }
     @Override
     public void voerUit() {
         System.out.println("Zie Bestellingen:");
-        for(Bestelling bestelling: cookie.getBestellingen()){
+        for(Bestelling bestelling: accountSessie.getBestellingen()){
             for(IKleding kleding: bestelling.getiKleding()){
             System.out.println(kleding.getNaam());}
         }
@@ -32,13 +32,13 @@ class BestellingMenu extends  Menu{
 }
  class ActiePlaatsRecensie implements  IActie{
     Scanner scanner;
-    Cookie cookie;
+    AccountSessie accountSessie;
 
     Bestelling bestelling;
     IKleding iKleding;
 
-    ActiePlaatsRecensie(Cookie cookie){
-        this.cookie = cookie;
+    ActiePlaatsRecensie(AccountSessie accountSessie){
+        this.accountSessie = accountSessie;
         scanner = new Scanner(System.in);
     }
     @Override

@@ -1,14 +1,13 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 class ActieVeranderHoeveelheid implements IActie {
     private IKleding kleding;
-    private Cookie cookie;
+    private AccountSessie accountSessie;
     Scanner scanner = new Scanner(System.in);
 
-    public ActieVeranderHoeveelheid(IKleding kleding, Cookie cookie) {
+    public ActieVeranderHoeveelheid(IKleding kleding, AccountSessie accountSessie) {
         this.kleding = kleding;
-        this.cookie = cookie;
+        this.accountSessie = accountSessie;
     }
 
     @Override
@@ -37,7 +36,7 @@ class ActieVeranderHoeveelheid implements IActie {
           //  default:
             //    System.out.println("Ongeldige keuze.");
         }
-               // new ActieZieMandje(cookie);
+               // new ActieZieMandje(AccountSessie);
     }//
 
 

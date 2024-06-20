@@ -1,7 +1,7 @@
 class ActiePlaatsBestelling implements IActie {
-    private Cookie account;
+    private AccountSessie account;
 
-    public ActiePlaatsBestelling(Cookie account) {
+    public ActiePlaatsBestelling(AccountSessie account) {
         this.account = account;
     }
 

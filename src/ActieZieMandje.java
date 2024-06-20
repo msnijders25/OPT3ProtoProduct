@@ -1,15 +1,15 @@
 import java.util.Scanner;
 
 public class ActieZieMandje implements IActie{
-    Cookie cookie;
+    AccountSessie accountSessie;
     Scanner scanner = new Scanner(System.in);
-    ActieZieMandje(Cookie cookie){
-     this.cookie = cookie;
+    ActieZieMandje(AccountSessie accountSessie){
+     this.accountSessie = accountSessie;
 
     }
     @Override
     public void voerUit() {
-       MandjeMenu menu = new MandjeMenu(cookie);
+       MandjeMenu menu = new MandjeMenu(accountSessie);
        menu.handleMenu(scanner);
     }
 }

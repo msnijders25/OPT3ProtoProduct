@@ -1,18 +1,15 @@
 public class ActieVeranderKoersMenu extends Menu {
-Cookie cookie;
-    ActieVeranderKoersMenu(Cookie cookie){
+AccountSessie accountSessie;
+    ActieVeranderKoersMenu(AccountSessie accountSessie){
         super("");
-this.cookie = cookie;
+this.accountSessie = accountSessie;
     }
             @Override
             protected void initializeMenuOpties() {
                 this.opties.clear();
-                USD usd = new USD();
-                POUND pound = new POUND();
-                EURO euro = new EURO();
-                voegOptieToe(new Menukeuze(1, usd.naam, new ActieKoersConversie(usd, cookie)));
-                voegOptieToe(new Menukeuze(2, euro.naam, new ActieKoersConversie(pound, cookie)));
-                voegOptieToe(new Menukeuze(3, pound.naam, new ActieKoersConversie(euro, cookie)));
+                voegOptieToe(new Menukeuze(1, ". Dollar", new ActieKoersConversie(new USD(), accountSessie)));
+                voegOptieToe(new Menukeuze(2, ". Pound", new ActieKoersConversie(new POUND(), accountSessie)));
+                voegOptieToe(new Menukeuze(3, ". Euro", new ActieKoersConversie(new EURO(), accountSessie)));
                 voegOptieToe(new Menukeuze(9, "Terug", true));
 
             }

@@ -17,6 +17,11 @@ class Menukeuze {
         this.isTerug = isTerug;
     }
 
+    public Menukeuze(int i, String s) {
+
+    }
+
+
     public int getIndex() {
         return index;
     }

@@ -28,3 +28,14 @@ public class Bestelling {
         this.iKleding = iKleding;
     }
 }
+class BestellingService {
+    public void plaatsBestelling(AccountSessie account) {
+        ActiePlaatsBestelling actie = new ActiePlaatsBestelling(account);
+        actie.voerUit();
+    }
+
+    public void zieBestelling(AccountSessie cookie) {
+        ActieZieBestelling actie = new ActieZieBestelling(cookie);
+        actie.voerUit();
+    }
+}

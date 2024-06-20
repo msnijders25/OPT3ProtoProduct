@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Cookie {
+public class AccountSessie {
     public int cookie;
     public Mand mand;
 
     PrijsProcesserKlant prijsProcesserKlant;
-    ArrayList<Bestelling> bestellingen = new ArrayList<>();
+    ArrayList<Bestelling> bestellingen;
 
-    Cookie(int cookie, PrijsProcesserKlant prijsProcesserKlant){
+    AccountSessie(int cookie, PrijsProcesserKlant prijsProcesserKlant){
         this.prijsProcesserKlant = prijsProcesserKlant;
         this.cookie = cookie;
          this.mand = new Mand();
