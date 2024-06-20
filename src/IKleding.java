@@ -90,9 +90,11 @@ abstract class PrijsProcesser {
     protected IKleding kledingFactory;
     protected PrijsStrategie prijsStrategie;
     protected ArrayList<Prijs> prijzen;
+
+    protected IKoers ikoers;
     protected ArrayList<prijsObserver> observers = new ArrayList<>();
 
-    public PrijsProcesser(IKleding kledingFactory, PrijsStrategie prijsStrategie) {
+    public PrijsProcesser() {
         this.kledingFactory = kledingFactory;
         this.prijsStrategie = prijsStrategie;
         this.prijzen = new ArrayList<>();
@@ -107,6 +109,10 @@ abstract class PrijsProcesser {
         return prijzen;
     }
 
+    public void setIkoers(IKoers ikoers) {
+        this.ikoers = ikoers;
+    }
+
     protected void selectKleding() {
         for (IKleding kleding : DataSeeder.getInstance().getAlleKleding()) {
             prijzen.add(new Prijs(kleding.getId(), kleding.getBasisPrijs()));
@@ -117,7 +123,10 @@ abstract class PrijsProcesser {
     protected abstract void loadPrijzen();
 
     protected void applyKoers() {
-    }
+        for (Prijs prijs : prijzen) {
+            double nieuwePrijs = prijs.getPrijs();
+            prijs.setPrijs(nieuwePrijs * ikoers.getKoers());
+    }}
 
     protected void loadPrijzenMetTax() {
         for (Prijs prijs : prijzen) {
@@ -144,8 +153,8 @@ abstract class PrijsProcesser {
 class PrijsProcesserKoers extends PrijsProcesser {
     IKoers iKoers;
 
-    public PrijsProcesserKoers(IKleding kledingFactory, PrijsStrategie prijsStrategie, IKoers iKoers) {
-        super(kledingFactory, prijsStrategie);
+    public PrijsProcesserKoers( IKoers iKoers) {
+
         this.iKoers = iKoers;
     }
 
@@ -159,23 +168,32 @@ class PrijsProcesserKoers extends PrijsProcesser {
 
     @Override
     protected void applyKoers() {
-        for (Prijs prijs : prijzen) {
-            double nieuwePrijs = prijs.getPrijs() * iKoers.getKoers();
-            prijs.setPrijs(nieuwePrijs);
+        for (IKleding kleding : DataSeeder.getInstance().getAlleKleding()) {
+            kleding.setBasisPrijs(kleding.getBasisPrijs() * iKoers.getKoers()); ;
+
         }
     }
 }
 
 class PrijsProcesserKlant extends PrijsProcesser {
-    public PrijsProcesserKlant(IKleding kledingFactory, PrijsStrategie prijsStrategie) {
-        super(kledingFactory, prijsStrategie);
-    }
+    public PrijsProcesserKlant() {
 
+    }
+    public void setIkoers(IKoers ikoers) {
+        this.ikoers = ikoers;
+    }
     @Override
     protected void loadPrijzen() {
         for (IKleding kleding : DataSeeder.getInstance().getAlleKleding()) {
             double basisPrijs = kleding.getBasisPrijs();
             prijzen.add(new Prijs(kleding.getId(), kleding.getBasisPrijs()));
+        }
+    }
+    @Override
+    protected void applyKoers() {
+        for (IKleding kleding : DataSeeder.getInstance().getAlleKleding()) {
+            kleding.setBasisPrijs(kleding.getBasisPrijs() * ikoers.getKoers()); ;
+
         }
     }
 }

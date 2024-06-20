@@ -140,7 +140,7 @@ class KlantAccountMenu extends Menu {
         voegOptieToe(new Menukeuze(1, "Zie Assortiment",new ActieZieAssortiment(cookie)));
         voegOptieToe(new Menukeuze(2, "Open Mandje",new ActieZieMandje(cookie)));
         voegOptieToe(new Menukeuze(3, "Zie Bestellingen",new ActieZieBestelling(cookie)));
-        voegOptieToe(new Menukeuze(4, "Verander Koers", new ActieVeranderKoerss()));
+        voegOptieToe(new Menukeuze(4, "Verander Koers", new ActieVeranderKoerss(cookie)));
         voegOptieToe(new Menukeuze(5, "Verander Taal", false));
         voegOptieToe(new Menukeuze(9, "Terug", true));
     }
@@ -153,29 +153,50 @@ class KlantAdminMenu extends Menu {
 
     @Override
     protected void initializeMenuOpties() {
-        voegOptieToe(new Menukeuze(1, "Zie Assortiment", false));
-        voegOptieToe(new Menukeuze(2, "Voeg een Sale toe", false));
-        voegOptieToe(new Menukeuze(3, "Voeg een kleding toe", false));
-        voegOptieToe(new Menukeuze(5, "BewerkPrijs", false));
+        voegOptieToe(new Menukeuze(1, "Zie Assortiment", new ActieOpenKlantBewerkSub()));
+        voegOptieToe(new Menukeuze(2, "Voeg een Sale toe", new ActieSaleSubMenu()));
+        voegOptieToe(new Menukeuze(3, "Voeg een kledingstuk toe", false));
         voegOptieToe(new Menukeuze(9, "Terug", true));
     }
 }
 
+class ActieOpenKlantBewerkSub implements  IActie{
+
+
+    @Override
+    public void voerUit() {
+        Scanner scanner = new Scanner(System.in);
+        KlantAdminMenuBewerk klant = new KlantAdminMenuBewerk("");
+        klant.handleMenu(scanner);
+    }
+}
 class KlantAdminMenuBewerk extends Menu {
     public KlantAdminMenuBewerk(String naam) {
         super(naam);
     }
 
-    @Override
-    protected void initializeMenuOpties() {
-    }
 
-    protected void initializeMenuOptiesBewerk(IKleding kleding) {
+    protected void initializeMenuOpties() {
         this.opties.clear();
-        voegOptieToe(new Menukeuze(1, "BewerkPrijs", false));
+        voegOptieToe(new Menukeuze(1, "BewerkPrijs", new ActieBewerkDataKleding()));
         voegOptieToe(new Menukeuze(2, "BewerkVoorraad",false));
         voegOptieToe(new Menukeuze(3, "BewerkVoorraad", false));
         voegOptieToe(new Menukeuze(9, "Terug", true));
-        handleMenu(new Scanner(System.in));
+    }
+}
+class ActieBewerkDataKleding implements  IActie{
+    @Override
+    public void voerUit() {
+        Scanner scanner = new Scanner(System.in);
+        ControllerKleding controllerKleding = new ControllerKleding(DataSeeder.getInstance().getAlleKleding());
+        controllerKleding.zieKledingLijstje();
+        int keuze = scanner.nextInt();
+        controllerKleding.bewerkKleding(keuze);
+    }
+}
+class ActieBewerkDataKled implements  IActie{
+    @Override
+    public void voerUit() {
+
     }
 }

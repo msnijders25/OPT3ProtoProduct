@@ -1,15 +1,14 @@
 public class ActieKoersConversie implements IActie {
-    Koers koers;
-    ActieKoersConversie(Koers koers){
+    IKoers koers;
+    Cookie cookie;
+    ActieKoersConversie(IKoers koers, Cookie cookie){
         this.koers = koers;
+        this.cookie = cookie;
     }
     @Override
     public void voerUit() {
-        SalePrijsStrategie prijsStrategie = new SalePrijsStrategie();
-        Hoodie hoodie = new Hoodie(1, "", 1, 1);
-        USD usd = new USD();
+        cookie.prijsProcesserKlant.setIkoers(koers);
+        cookie.prijsProcesserKlant.applyKoers();
 
-        PrijsProcesserKoers processer = new PrijsProcesserKoers(hoodie, prijsStrategie, usd) ;
-        processer.loadPrijzen();
     }
 }

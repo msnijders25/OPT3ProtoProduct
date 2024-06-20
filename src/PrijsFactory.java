@@ -14,21 +14,21 @@ class Koers implements IKoers {
     public double getKoers() {
     return koers;}
 }
-class USD extends Koers{
+class USD extends Koers implements  IKoers{
     USD(){
         super(0.52, "USD");
 
     }
     }
-class EURO extends Koers{
+class EURO extends Koers implements  IKoers{
     EURO(){
-        super(0.89, "USD");
+        super(0.89, "EURO");
 
     }
 }
-class POUND extends Koers{
+class POUND extends Koers implements  IKoers{
     POUND(){
-        super(0.77, "USD");
+        super(0.77, "POUND");
 
     }
 }

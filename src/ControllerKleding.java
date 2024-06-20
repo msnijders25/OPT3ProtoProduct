@@ -33,13 +33,14 @@ public class ControllerKleding {
         }
     }
 
-    public void getKleding(int keuze) {
+    public IKleding getKleding(int keuze) {
         IKleding kleding = vindKleding(keuze);
         if (kleding != null) {
             System.out.println(kleding + " is gekozen.");
         } else {
             System.out.println("Kledingstuk niet gevonden.");
         }
+        return kleding;
     }
 
     public void kledingVerlaagVoorraad(int keuze) {

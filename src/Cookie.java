@@ -3,9 +3,12 @@ import java.util.ArrayList;
 public class Cookie {
     public int cookie;
     public Mand mand;
+
+    PrijsProcesserKlant prijsProcesserKlant;
     ArrayList<Bestelling> bestellingen = new ArrayList<>();
 
-    Cookie(int cookie){
+    Cookie(int cookie, PrijsProcesserKlant prijsProcesserKlant){
+        this.prijsProcesserKlant = prijsProcesserKlant;
         this.cookie = cookie;
          this.mand = new Mand();
          bestellingen = new ArrayList<>();
